@@ -1,10 +1,19 @@
-**ProgressLine** is a command-line tool for tracking the progress of piped commands in a compact one-line format.
+## ProgressLine
 
-![progressline_output](https://github.com/kattouf/ProgressLine/assets/7829589/ad724f01-e075-4273-8a39-bb83704f29fb)
+[![Latest Release](https://img.shields.io/badge/Platform-macOS-6464aa)](https://img.shields.io/badge/Platform-macOS-6464aa)
+[![Latest Release](https://img.shields.io/badge/Platform-Linux-6464aa)](https://img.shields.io/badge/Platform-Linux-6464aa)
+[![Latest Release](https://img.shields.io/github/release/kattouf/ProgressLine.svg)](https://github.com/kattouf/ProgressLine/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/kattouf/ProgressLine/total?label=Downloads&logo=github)](https://img.shields.io/github/downloads/kattouf/ProgressLine/total?label=Downloads&logo=github)
 
-## Overview
+Track commands progress in a compact one-line format.
 
-ProgressLine enhances your command-line experience by providing a visually appealing way to monitor the progress of long-running tasks. It integrates seamlessly into your existing workflow, allowing you to focus on your work while staying informed about the progress.
+| ⏳ *`progressline` output* |
+|:--:|
+| <img src="https://github.com/kattouf/ProgressLine/assets/7829589/c182834e-e4e1-41a7-9549-fade2e180b7c" width="800" height="410"> |
+
+| 📝 *standart output* |
+|:--:|
+| <img src="https://github.com/kattouf/ProgressLine/assets/7829589/6075cfb9-0171-4bc4-9fdb-f1613c5a8e62" width="800" height="410"> |
 
 ## Usage
 
