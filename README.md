@@ -1,6 +1,6 @@
 **ProgressLine** is a command-line tool for tracking the progress of piped commands in a compact one-line format.
 
-![progressline_output](./.readme-resources/progressline_output.gif)
+![progressline_output](https://github.com/kattouf/ProgressLine/assets/7829589/ad724f01-e075-4273-8a39-bb83704f29fb)
 
 ## Overview
 
