@@ -33,7 +33,9 @@ long-running-command | progressline -s snake
 
 ### [Homebrew](https://brew.sh) (MacOS / Linux)
 
-Coming soon
+``` sh
+brew install kattouf/progressline/progressline
+```
 
 ### [Mint](https://github.com/yonaskolb/Mint) (MacOS)
 
