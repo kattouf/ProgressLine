@@ -24,6 +24,10 @@ clean:
 	@rm -rf .build 2> /dev/null || true
 .PHONY: clean
 
+long-running-command:
+	@rm -rf .build/apple && swift build -c release --arch x86_64 --arch arm64 2>&1
+.PHONY: long-running-command
+
 prepare_release_artifacts: \
 prepare_release_artifacts_linux_arm64 \
 prepare_release_artifacts_linux_x86_64 \

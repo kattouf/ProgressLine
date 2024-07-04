@@ -7,13 +7,14 @@
 
 Track commands progress in a compact one-line format.
 
-| ⏳ *`progressline` output* |
-|:--:|
-| <img src="https://github.com/kattouf/ProgressLine/assets/7829589/c182834e-e4e1-41a7-9549-fade2e180b7c" width="800" height="410"> |
 
-| 📝 *standart output* |
+| ⏳ `progressline` output |
 |:--:|
-| <img src="https://github.com/kattouf/ProgressLine/assets/7829589/6075cfb9-0171-4bc4-9fdb-f1613c5a8e62" width="800" height="410"> |
+| ![](./.github/progressline_output.gif) |
+
+| 📝 standart output |
+|:--:|
+| ![](./.github/standart_output.gif) |
 
 ## Usage
 
