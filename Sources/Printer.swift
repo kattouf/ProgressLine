@@ -54,7 +54,7 @@ final class Printer: Sendable {
             $0.write(buffer.value.data(using: .utf8)!)
             try? $0.synchronize()
         }
-        if !_wasWritten.value && !buffer.value.withoutANSI().isEmpty {
+        if !_wasWritten.value {
             _wasWritten.setValue(true)
         }
         buffer.setValue(String())
