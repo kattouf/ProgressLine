@@ -46,7 +46,7 @@ Available styles:
 |:--:|:--:|:--:|
 | ![](./.github/activity_style_dots.gif) | ![](./.github/activity_style_snake.gif) | ![](./.github/activity_style_kitt.gif) |
 
-### Highlight important info
+### Highlight important lines
 
 Log specific stdin lines above the progress line using the `-m, --log-matches` argument:
 
@@ -57,6 +57,14 @@ long-running-command | progressline --log-matches "regex-1" --log-matches "regex
 | output |
 |:--:|
 | ![](./.github/progressline_matches_output.png) |
+
+### Use progress line as an addition to standard output
+
+Log all stdin data above the progress line using the `-a, --log-all` argument:
+
+```sh
+long-running-command | progressline --log-all
+```
 
 ### Save original log
 
@@ -72,14 +80,6 @@ long-running-command | tee original-log.txt | progressline
 
 ``` sh
 long-running-command | progressline --original-log-path original-log.txt
-```
-
-### Use progress line as an addition to standard output
-
-Log all stdin data above the progress line using the `-a, --log-all` argument:
-
-```sh
-long-running-command | progressline --log-all
 ```
 
 ## Installation
