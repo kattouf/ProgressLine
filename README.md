@@ -6,7 +6,6 @@
 
 Track commands progress in a compact one-line format.
 
-
 | ⏳ `progressline` output |
 |:--:|
 | ![](./.github/progressline_output.gif) |
@@ -14,6 +13,8 @@ Track commands progress in a compact one-line format.
 | 📝 standart output |
 |:--:|
 | ![](./.github/standart_output.gif) |
+
+[Usage](#usage) • [Features](#features) • [Installation](#installation)
 
 ## Usage
 
