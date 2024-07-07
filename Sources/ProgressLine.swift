@@ -20,7 +20,12 @@ struct ProgressLine: AsyncParsableCommand {
     @Option(name: [.customLong("log-matches"), .customShort("m")], help: "Log above progress line lines matching the given regular expressions.")
     var matchesToLog: [String] = []
 
+    @Flag(name: [.customLong("log-all"), .customShort("a")], help: "Log all lines above the progress line.")
+    var shouldLogAll: Bool = false
+
     mutating func run() async throws {
+        try validateConfiguration()
+
         let printers = PrintersHolder(
             printer: Printer(fileHandle: .standardOutput),
             errorsPrinter: Printer(fileHandle: .standardError)
@@ -36,8 +41,10 @@ struct ProgressLine: AsyncParsableCommand {
             OriginalLogController(logger: logger, path: $0)
         }
         let matchesController = await MatchesController(logger: logger, regexps: matchesToLog)
+        let logAllController = shouldLogAll ? LogAllController(logger: logger) : nil
 
         for await data in FileHandle.standardInput.asyncStream {
+            await logAllController?.didGetStdinDataChunk(data)
             await matchesController?.didGetStdinDataChunk(data)
             await progressLineController.didGetStdinDataChunk(data)
             await originalLogController?.didGetStdinDataChunk(data)
@@ -45,5 +52,11 @@ struct ProgressLine: AsyncParsableCommand {
 
         await progressLineController.didReachEndOfStdin()
         try await originalLogController?.didReachEndOfStdin()
+    }
+
+    private func validateConfiguration() throws {
+        guard !shouldLogAll || matchesToLog.isEmpty else {
+            throw ValidationError("The --log-all and --log-matches options are mutually exclusive.")
+        }
     }
 }
