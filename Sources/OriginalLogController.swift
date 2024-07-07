@@ -2,26 +2,28 @@ import Foundation
 
 final actor OriginalLogController {
     private let logger: UnderProgressLineLogger
-    let path: String
-    private var buffer = ""
+    let fileHandle: FileHandle
 
-    init(logger: UnderProgressLineLogger, path: String) {
+    init?(logger: UnderProgressLineLogger, path: String) async {
         self.logger = logger
-        self.path = path
+
+        do {
+            let url = URL(fileURLWithPath: path)
+            try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+            FileManager.default.createFile(atPath: path, contents: nil)
+            self.fileHandle = try FileHandle(forWritingTo: url)
+            fileHandle.seekToEndOfFile()
+        } catch {
+            await logger.logError(ErrorMessage.canNotOpenFile(path))
+            return nil
+        }
+    }
+
+    deinit {
+        fileHandle.closeFile()
     }
 
     func didGetStdinDataChunk(_ data: Data) async {
-        let text = String(data: data, encoding: .utf8)
-        guard let text else {
-            await logger.logError(ErrorMessage.canNotDecodeData)
-            return
-        }
-        buffer.append(text)
-    }
-
-    func didReachEndOfStdin() throws {
-        let url = URL(fileURLWithPath: path)
-        try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-        try buffer.write(to: url, atomically: true, encoding: .utf8)
+        fileHandle.write(data)
     }
 }

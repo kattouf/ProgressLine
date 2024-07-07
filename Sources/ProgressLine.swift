@@ -37,8 +37,10 @@ struct ProgressLine: AsyncParsableCommand {
             logger: logger,
             activityIndicator: .make(style: activityIndicatorStyle)
         )
-        let originalLogController = originalLogPath.map {
-            OriginalLogController(logger: logger, path: $0)
+        let originalLogController = if let originalLogPath {
+            await OriginalLogController(logger: logger, path: originalLogPath)
+        } else {
+            Optional<OriginalLogController>.none
         }
         let matchesController = await MatchesController(logger: logger, regexps: matchesToLog)
         let logAllController = shouldLogAll ? LogAllController(logger: logger) : nil
@@ -51,7 +53,6 @@ struct ProgressLine: AsyncParsableCommand {
         }
 
         await progressLineController.didReachEndOfStdin()
-        try await originalLogController?.didReachEndOfStdin()
     }
 
     private func validateConfiguration() throws {
