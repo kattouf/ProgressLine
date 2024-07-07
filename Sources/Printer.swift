@@ -9,6 +9,11 @@ import Foundation
 final class Printer: Sendable {
     private let fileHandle: LockIsolated<FileHandle>
     private let buffer = LockIsolated(String())
+    private let _wasWritten = LockIsolated(false)
+
+    var wasWritten: Bool {
+        _wasWritten.value
+    }
 
     init(fileHandle: FileHandle) {
         self.fileHandle = .init(fileHandle)
@@ -48,6 +53,9 @@ final class Printer: Sendable {
         fileHandle.withValue {
             $0.write(buffer.value.data(using: .utf8)!)
             try? $0.synchronize()
+        }
+        if !_wasWritten.value && !buffer.value.withoutANSI().isEmpty {
+            _wasWritten.setValue(true)
         }
         buffer.setValue(String())
     }

@@ -3,8 +3,8 @@ import TaggedTime
 
 final actor ProgressLineController {
     // Dependencies
-    private let printer: Printer
-    private let errorsPrinter: Printer
+    private let printers: PrintersHolder
+    private let logger: UnderProgressLineLogger
     private let progressLineFormatter: ProgressLineFormatter
     private let progressTracker: ProgressTracker
     // State
@@ -13,23 +13,25 @@ final actor ProgressLineController {
     private var progress: Progress?
 
     private init(
-        printer: Printer,
-        errorsPrinter: Printer,
+        printers: PrintersHolder,
+        logger: UnderProgressLineLogger,
         progressLineFormatter: ProgressLineFormatter,
         progressTracker: ProgressTracker
     ) {
-        self.printer = printer
-        self.errorsPrinter = errorsPrinter
+        self.printers = printers
+        self.logger = logger
         self.progressLineFormatter = progressLineFormatter
         self.progressTracker = progressTracker
     }
 
     // MARK: - Public
 
-    static func buildAndStart(activityIndicator: ActivityIndicator) async -> Self {
+    static func buildAndStart(
+        printers: PrintersHolder,
+        logger: UnderProgressLineLogger,
+        activityIndicator: ActivityIndicator
+    ) async -> Self {
         let progressTracker = ProgressTracker.start()
-        let printer = Printer(fileHandle: .standardOutput)
-        let errorsPrinter = Printer(fileHandle: .standardError)
         let windowSizeObserver = WindowSizeObserver.startObserving()
         let progressLineFormatter = ProgressLineFormatter(
             activityIndicator: activityIndicator,
@@ -37,8 +39,8 @@ final actor ProgressLineController {
         )
 
         let controller = Self(
-            printer: printer,
-            errorsPrinter: errorsPrinter,
+            printers: printers,
+            logger: logger,
             progressLineFormatter: progressLineFormatter,
             progressTracker: progressTracker
         )
@@ -49,10 +51,10 @@ final actor ProgressLineController {
 
     // MARK: - Input
 
-    func didGetStdinDataChunk(_ data: Data) {
+    func didGetStdinDataChunk(_ data: Data) async {
         let stdinText = String(data: data, encoding: .utf8)
         guard let stdinText else {
-            printToStderrAboveProgressLine("\(ANSI.yellow)[!] progressline: Failed to decode stdin data as UTF-8\(ANSI.reset)")
+            await logger.logError(ErrorMessage.canNotDecodeData)
             return
         }
 
@@ -61,21 +63,23 @@ final actor ProgressLineController {
             .last { !$0.isEmpty }
             .map(String.init)
 
-        redrawProgressLine()
+        await redrawProgressLine()
     }
 
-    func didReachEndOfStdin() {
+    func didReachEndOfStdin() async {
         stopAnimationLoop()
 
         let progressLine = progressLineFormatter.finished(progress: progress)
-        if progress != nil {
+        await printers.withPrinter { printer in
+            if printer.wasWritten {
+                printer
+                    .cursorUp()
+                    .eraseLine()
+            }
             printer
-                .cursorUp()
-                .eraseLine()
+                .writeln(progressLine)
+                .flush()
         }
-        printer
-            .writeln(progressLine)
-            .flush()
     }
 
     // MARK: - Private
@@ -93,25 +97,19 @@ final actor ProgressLineController {
         renderLoopTask?.cancel()
     }
 
-    private func redrawProgressLine() {
-        if self.progress != nil {
-            printer
-                .cursorUp()
-                .eraseLine()
-        }
+    private func redrawProgressLine() async {
         let progress = progressTracker.moveForward(lastStdinLine)
         let progressLine = progressLineFormatter.inProgress(progress: progress)
         self.progress = progress
-        printer.writeln(progressLine)
-        printer.flush()
-    }
-
-    private func printToStderrAboveProgressLine(_ message: String) {
-        errorsPrinter
-            .cursorUp()
-            .eraseLine()
-            .writeln(message)
-            .writeln("")
-            .flush()
+        await printers.withPrinter { printer in
+            if printer.wasWritten {
+                printer
+                    .cursorUp()
+                    .eraseLine()
+            }
+            printer
+                .writeln(progressLine)
+                .flush()
+        }
     }
 }
