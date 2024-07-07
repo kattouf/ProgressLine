@@ -3,7 +3,6 @@
 [![Latest Release](https://img.shields.io/badge/Platform-macOS-6464aa)](https://img.shields.io/badge/Platform-macOS-6464aa)
 [![Latest Release](https://img.shields.io/badge/Platform-Linux-6464aa)](https://img.shields.io/badge/Platform-Linux-6464aa)
 [![Latest Release](https://img.shields.io/github/release/kattouf/ProgressLine.svg)](https://github.com/kattouf/ProgressLine/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/kattouf/ProgressLine/total?label=Downloads&logo=github)](https://img.shields.io/github/downloads/kattouf/ProgressLine/total?label=Downloads&logo=github)
 
 Track commands progress in a compact one-line format.
 
@@ -30,13 +29,56 @@ If the command you are executing also writes data to `stderr`, then you should p
 long-running-command 2>&1 | progressline
 ```
 
-**ProgressLine** offers different styles to represent activity, they can be changed using `--activity-style`/`-s` option:
+## Features
+
+### Change Activity Indicator Styles
+
+**ProgressLine** offers different styles to represent activity, they can be changed using `-s, --activity-style` argument:
 
 ``` sh
-long-running-command | progressline --activity-style { dots - default | kitt | snake }
-# Example
 long-running-command | progressline --activity-style snake
-long-running-command | progressline -s snake
+```
+
+Available styles:
+
+| dots (Default) | snake | [kitt](https://en.wikipedia.org/wiki/KITT) |
+|:--:|:--:|:--:|
+| ![](./.github/activity_style_dots.gif) | ![](./.github/activity_style_snake.gif) | ![](./.github/activity_style_kitt.gif) |
+
+### Highlight important info
+
+Log specific stdin lines above the progress line using the `-m, --log-matches` argument:
+
+``` sh
+long-running-command | progressline --log-matches "regex-1" --log-matches "regex-2"
+```
+
+| output |
+|:--:|
+| ![](./.github/progressline_matches_output.png) |
+
+### Save original log
+
+You have two options for saving the full original log:
+
+1. Using [tee](https://en.wikipedia.org/wiki/Tee_(command))
+
+``` sh
+long-running-command | tee original-log.txt | progressline
+```
+
+2. Using `-l, --original-log-path` argument:
+
+``` sh
+long-running-command | progressline --original-log-path original-log.txt
+```
+
+### Use progress line as an addition to standard output
+
+Log all stdin data above the progress line using the `-a, --log-all` argument:
+
+```sh
+long-running-command | progressline --log-all
 ```
 
 ## Installation
