@@ -11,11 +11,26 @@ enum ANSI {
     static let eraseLine = "\u{1B}[2K"
 
     // Colors and styles
-    static let red = "\u{1B}[31m"
-    static let green = "\u{1B}[32m"
-    static let yellow = "\u{1B}[33m"
-    static let blue = "\u{1B}[34m"
-    static let magenta = "\u{1B}[35m"
-    static let bold = "\u{1B}[1m"
-    static let reset = "\u{1B}[0m"
+    static let noStyleMode = !isTTY
+    static var red: String {
+        noStyleMode ? "" : "\u{1B}[31m"
+    }
+    static var green: String {
+        noStyleMode ? "" : "\u{1B}[32m"
+    }
+    static var yellow: String {
+        noStyleMode ? "" : "\u{1B}[33m"
+    }
+    static var blue: String {
+        noStyleMode ? "" : "\u{1B}[34m"
+    }
+    static var magenta: String {
+        noStyleMode ? "" : "\u{1B}[35m"
+    }
+    static var bold: String {
+        noStyleMode ? "" : "\u{1B}[1m"
+    }
+    static var reset: String {
+        noStyleMode ? "" : "\u{1B}[0m"
+    }
 }

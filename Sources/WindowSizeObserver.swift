@@ -14,11 +14,16 @@ final class WindowSizeObserver: Sendable {
         _size.value
     }
 
-    static func startObserving() -> WindowSizeObserver {
+    static func startObserving() -> WindowSizeObserver? {
+        guard isTTY else {
+            return nil
+        }
         let observer = WindowSizeObserver()
         observer.setupSignalHandler()
         return observer
     }
+
+    private init() {}
 
     private func setupSignalHandler() {
         let sigwinch = SIGWINCH
@@ -40,7 +45,7 @@ final class WindowSizeObserver: Sendable {
         _size.setValue(Self.getTerminalSize())
     }
 
-    private static func getTerminalSize() -> Size {
+    static func getTerminalSize() -> Size {
         var w = winsize()
         #if os(Linux)
         _ = ioctl(STDOUT_FILENO, UInt(TIOCGWINSZ), &w)

@@ -19,11 +19,11 @@ final class ProgressLineFormatter: Sendable {
     #endif
 
     private let activityIndicator: ActivityIndicator
-    private let windowSizeObserver: WindowSizeObserver
+    private let windowSizeObserver: WindowSizeObserver?
 
     init(
         activityIndicator: ActivityIndicator,
-        windowSizeObserver: WindowSizeObserver
+        windowSizeObserver: WindowSizeObserver?
     ) {
         self.activityIndicator = activityIndicator
         self.windowSizeObserver = windowSizeObserver
@@ -83,6 +83,9 @@ final class ProgressLineFormatter: Sendable {
     }
 
     private func calculateStringNotFittedToWindowLength(_ string: String) -> Int {
+        guard let windowSizeObserver else {
+            return 0
+        }
         let stringWithoutANSI = string.withoutANSI()
         let windowWidth = windowSizeObserver.size.width
         return max(stringWithoutANSI.count - windowWidth, 0)
