@@ -1,10 +1,10 @@
 import Foundation
 
 final actor OriginalLogController {
-    private let logger: UnderProgressLineLogger
+    private let logger: AboveProgressLineLogger
     let fileHandle: FileHandle
 
-    init?(logger: UnderProgressLineLogger, path: String) async {
+    init?(logger: AboveProgressLineLogger, path: String) async {
         self.logger = logger
 
         do {

@@ -4,7 +4,7 @@ import TaggedTime
 final actor ProgressLineController {
     // Dependencies
     private let printers: PrintersHolder
-    private let logger: UnderProgressLineLogger
+    private let logger: AboveProgressLineLogger
     private let progressLineFormatter: ProgressLineFormatter
     private let progressTracker: ProgressTracker
     // State
@@ -14,7 +14,7 @@ final actor ProgressLineController {
 
     private init(
         printers: PrintersHolder,
-        logger: UnderProgressLineLogger,
+        logger: AboveProgressLineLogger,
         progressLineFormatter: ProgressLineFormatter,
         progressTracker: ProgressTracker
     ) {
@@ -28,7 +28,7 @@ final actor ProgressLineController {
 
     static func buildAndStart(
         printers: PrintersHolder,
-        logger: UnderProgressLineLogger,
+        logger: AboveProgressLineLogger,
         activityIndicator: ActivityIndicator
     ) async -> Self {
         let progressTracker = ProgressTracker.start()

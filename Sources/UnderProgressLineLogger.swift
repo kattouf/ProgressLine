@@ -1,6 +1,6 @@
 import Foundation
 
-final class UnderProgressLineLogger: Sendable {
+final class AboveProgressLineLogger: Sendable {
     private let printers: PrintersHolder
 
     init(printers: PrintersHolder) {

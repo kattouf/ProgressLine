@@ -1,9 +1,9 @@
 import Foundation
 
 final class LogAllController {
-    private let logger: UnderProgressLineLogger
+    private let logger: AboveProgressLineLogger
 
-    init(logger: UnderProgressLineLogger) {
+    init(logger: AboveProgressLineLogger) {
         self.logger = logger
     }
 

@@ -1,10 +1,10 @@
 import Foundation
 
 final class MatchesController {
-    private let logger: UnderProgressLineLogger
+    private let logger: AboveProgressLineLogger
     let regexps: [NSRegularExpression]
 
-    init?(logger: UnderProgressLineLogger, regexps: [String]) async {
+    init?(logger: AboveProgressLineLogger, regexps: [String]) async {
         self.logger = logger
         guard !regexps.isEmpty else {
             return nil

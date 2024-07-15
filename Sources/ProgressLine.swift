@@ -30,7 +30,7 @@ struct ProgressLine: AsyncParsableCommand {
             printer: Printer(fileHandle: .standardOutput),
             errorsPrinter: Printer(fileHandle: .standardError)
         )
-        let logger = UnderProgressLineLogger(printers: printers)
+        let logger = AboveProgressLineLogger(printers: printers)
 
         let progressLineController = await ProgressLineController.buildAndStart(
             printers: printers,
@@ -40,7 +40,7 @@ struct ProgressLine: AsyncParsableCommand {
         let originalLogController = if let originalLogPath {
             await OriginalLogController(logger: logger, path: originalLogPath)
         } else {
-            Optional<OriginalLogController>.none
+            OriginalLogController?.none
         }
         let matchesController = await MatchesController(logger: logger, regexps: matchesToLog)
         let logAllController = shouldLogAll ? LogAllController(logger: logger) : nil

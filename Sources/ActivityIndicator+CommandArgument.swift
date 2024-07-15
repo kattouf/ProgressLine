@@ -17,4 +17,12 @@ extension ActivityIndicator {
             .snake
         }
     }
+
+    #if DEBUG
+    static func test() -> ActivityIndicator {
+        .init(
+          configuration: .init(refreshRate: 1_000_000_000, states: ["<activity>"])
+        )
+    }
+    #endif
 }
