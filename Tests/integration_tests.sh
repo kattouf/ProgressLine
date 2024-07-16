@@ -23,6 +23,9 @@ test_data_producer_config="{
 test_data_producer_config_file="/tmp/progressline_test_data_producer_config.json"
 echo "$test_data_producer_config" > "$test_data_producer_config_file"
 
+# warmup test data producer
+swift "$TESTS_DIR"/test_data_producer.swift $test_data_producer_config_file > /dev/null
+
 generate_test_output="swift $TESTS_DIR/test_data_producer.swift $test_data_producer_config_file"
 
 # Test default mode
