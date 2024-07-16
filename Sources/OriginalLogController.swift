@@ -1,6 +1,6 @@
 import Foundation
 
-final actor OriginalLogController {
+final class OriginalLogController {
     private let logger: AboveProgressLineLogger
     let fileHandle: FileHandle
 
