@@ -24,6 +24,15 @@ clean:
 	@rm -rf .build 2> /dev/null || true
 .PHONY: clean
 
+TEST_BUILD := .build/debug/progressline
+TEST_BUILD_SRCS := $(wildcard Sources/*.swift Package.swift)
+$(TEST_BUILD): $(TEST_BUILD_SRCS)
+	@swift build --configuration debug
+
+test: $(TEST_BUILD)
+	@./Tests/integration_tests.sh $(TEST_BUILD)
+.PHONY: test
+
 long-running-command:
 	@rm -rf .build/apple && swift build -c release --arch x86_64 --arch arm64 2>&1
 .PHONY: long-running-command
@@ -81,7 +90,7 @@ GREEN := \033[0;32m
 NC := \033[0m
 
 prepare_release_artifacts_for_triple:
-	$(SWIFT) build $(BUILD_FLAGS) 1> /dev/null
+	$(SWIFT) build $(BUILD_FLAGS)
 	$(STRIP) $(RELATIVE_EXECUTABLE_PATH)
 	@echo "$(GREEN)Built $(EXECUTABLE_PATH)$(NC)"
 	zip -j $(EXECUTABLE_ARCHIVE_PATH) $(EXECUTABLE_PATH)

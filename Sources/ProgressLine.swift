@@ -23,6 +23,11 @@ struct ProgressLine: AsyncParsableCommand {
     @Flag(name: [.customLong("log-all"), .customShort("a")], help: "Log all lines above the progress line.")
     var shouldLogAll: Bool = false
 
+    #if DEBUG
+    @Flag(name: [.customLong("test-mode")], help: "Enable test mode. Activity indicator will be replaced with a static string.")
+    var testMode: Bool = false
+    #endif
+
     mutating func run() async throws {
         try validateConfiguration()
 
@@ -32,10 +37,15 @@ struct ProgressLine: AsyncParsableCommand {
         )
         let logger = AboveProgressLineLogger(printers: printers)
 
+        #if DEBUG
+        let activityIndicator: ActivityIndicator = testMode ? .test() : .make(style: activityIndicatorStyle)
+        #else
+        let activityIndicator: ActivityIndicator = .make(style: activityIndicatorStyle)
+        #endif
         let progressLineController = await ProgressLineController.buildAndStart(
             printers: printers,
             logger: logger,
-            activityIndicator: .make(style: activityIndicatorStyle)
+            activityIndicator: activityIndicator
         )
         let originalLogController = if let originalLogPath {
             await OriginalLogController(logger: logger, path: originalLogPath)
