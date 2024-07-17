@@ -97,7 +97,7 @@ brew install kattouf/progressline/progressline
 mint install kattouf/ProgressLine
 ```
 
-### [Mise](Mise) (MacOS)
+### [Mise](https://mise.jdx.dev) (MacOS)
 
 ``` sh
 mise use -g spm:kattouf/ProgressLine
