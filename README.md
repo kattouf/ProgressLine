@@ -1,8 +1,9 @@
 ## ProgressLine
 
-[![Latest Release](https://img.shields.io/badge/Platform-macOS-6464aa)](https://img.shields.io/badge/Platform-macOS-6464aa)
-[![Latest Release](https://img.shields.io/badge/Platform-Linux-6464aa)](https://img.shields.io/badge/Platform-Linux-6464aa)
+![](https://img.shields.io/badge/Platform-macOS-6464aa)
+![](https://img.shields.io/badge/Platform-Linux-6464aa)
 [![Latest Release](https://img.shields.io/github/release/kattouf/ProgressLine.svg)](https://github.com/kattouf/ProgressLine/releases/latest)
+![](https://github.com/kattouf/ProgressLine/actions/workflows/tests.yml/badge.svg?branch=main)
 
 Track commands progress in a compact one-line format.
 
