@@ -1,3 +1,14 @@
+#!/usr/bin/env bash
+#
+# Determine if the script is sourced or executed
+if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
+    # Script is being sourced
+    SNAPSHOTS_DIR="$(cd "$(dirname "${BASH_SOURCE[1]}")" && pwd)"
+else
+    # Script is being executed
+    SNAPSHOTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+fi
+
 # takes a name for snapshot file and string to compare to reference.
 # If the snapshot file does not exist, it will be created.
 # If the snapshot file does exist, the string will be compared to the snapshot.
@@ -6,8 +17,8 @@
 assert_snapshot() {
   local snapshot_name="$1"
   local snapshot_value="$2"
-  local snapshot_file="snapshots/$snapshot_name.snapshot"
-  mkdir -p snapshots
+  local snapshot_file="$SNAPSHOTS_DIR/snapshots/$snapshot_name.snapshot"
+  mkdir -p "$SNAPSHOTS_DIR"
 
   if [ "$SNAPSHOT_RECORD" = "true" ]; then
     echo "Recording snapshot $snapshot_name" >&2
