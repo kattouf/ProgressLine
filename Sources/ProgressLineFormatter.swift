@@ -20,18 +20,21 @@ final class ProgressLineFormatter: Sendable {
 
     private let activityIndicator: ActivityIndicator
     private let windowSizeObserver: WindowSizeObserver?
+    private let mockActivityAndDuration: Bool
 
     init(
         activityIndicator: ActivityIndicator,
-        windowSizeObserver: WindowSizeObserver?
+        windowSizeObserver: WindowSizeObserver?,
+        mockActivityAndDuration: Bool
     ) {
         self.activityIndicator = activityIndicator
         self.windowSizeObserver = windowSizeObserver
+        self.mockActivityAndDuration = mockActivityAndDuration
     }
 
     func inProgress(progress: Progress) -> String {
-        let activityIndicator = activityIndicator.state(forDuration: progress.duration)
-        let formattedDuration = formatDuration(from: progress.duration)
+        let activityIndicator = mockActivityAndDuration ? "<activity>" : activityIndicator.state(forDuration: progress.duration)
+        let formattedDuration = mockActivityAndDuration ? "<duration>" : formatDuration(from: progress.duration)
 
         let styledActivityIndicator = ANSI.blue + activityIndicator + ANSI.reset
         let styledDuration = ANSI.bold + formattedDuration + ANSI.reset
@@ -46,7 +49,7 @@ final class ProgressLineFormatter: Sendable {
     }
 
     func finished(progress: Progress?) -> String {
-        let formattedDuration = progress.map { formatDuration(from: $0.duration) }
+        let formattedDuration = mockActivityAndDuration ? "<duration>" : progress.map { formatDuration(from: $0.duration) }
 
         let styledActivityIndicator = ANSI.green + Symbol.checkmark + ANSI.reset
         let styledDuration = formattedDuration.map { ANSI.bold + $0 + ANSI.reset }

@@ -29,13 +29,15 @@ final actor ProgressLineController {
     static func buildAndStart(
         printers: PrintersHolder,
         logger: AboveProgressLineLogger,
-        activityIndicator: ActivityIndicator
+        activityIndicator: ActivityIndicator,
+        mockActivityAndDuration: Bool = false
     ) async -> Self {
         let progressTracker = ProgressTracker.start()
         let windowSizeObserver = WindowSizeObserver.startObserving()
         let progressLineFormatter = ProgressLineFormatter(
             activityIndicator: activityIndicator,
-            windowSizeObserver: windowSizeObserver
+            windowSizeObserver: windowSizeObserver,
+            mockActivityAndDuration: mockActivityAndDuration
         )
 
         let controller = Self(
