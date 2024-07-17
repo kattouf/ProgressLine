@@ -2,7 +2,7 @@ name: Tests
 on: [push]
 jobs:
   build:
-    name: Integration tests / macOS
+    name: Integration tests
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
