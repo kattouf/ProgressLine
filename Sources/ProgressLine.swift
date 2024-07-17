@@ -38,14 +38,16 @@ struct ProgressLine: AsyncParsableCommand {
         let logger = AboveProgressLineLogger(printers: printers)
 
         #if DEBUG
-        let activityIndicator: ActivityIndicator = testMode ? .test() : .make(style: activityIndicatorStyle)
+        let activityIndicator: ActivityIndicator = testMode ? .disabled() : .make(style: activityIndicatorStyle)
         #else
+        let testMode = false
         let activityIndicator: ActivityIndicator = .make(style: activityIndicatorStyle)
         #endif
         let progressLineController = await ProgressLineController.buildAndStart(
             printers: printers,
             logger: logger,
-            activityIndicator: activityIndicator
+            activityIndicator: activityIndicator,
+            mockActivityAndDuration: testMode
         )
         let originalLogController = if let originalLogPath {
             await OriginalLogController(logger: logger, path: originalLogPath)
