@@ -1,4 +1,4 @@
-Output standart_output.gif
+Output standard_output.gif
 
 Require progressline
 
