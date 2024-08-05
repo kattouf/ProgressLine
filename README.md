@@ -112,7 +112,7 @@ mint install kattouf/ProgressLine
 mise use -g spm:kattouf/ProgressLine
 ```
 
-### Manual Installation (MacOS / Linux)
+### Manual Installation (macOS / Linux)
 
 Download the binary for your platform from the [releases page](https://github.com/kattouf/ProgressLine/releases), and place it in your executable path.
 
