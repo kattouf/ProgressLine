@@ -85,19 +85,28 @@ long-running-command | progressline --original-log-path original-log.txt
 
 ## Installation
 
-### [Homebrew](https://brew.sh) (MacOS / Linux)
+### [Homebrew](https://brew.sh) (macOS / Linux)
 
 ``` sh
-brew install kattouf/progressline/progressline
+brew install progressline
 ```
 
-### [Mint](https://github.com/yonaskolb/Mint) (MacOS)
+<details>
+  <summary>If you have macOS version older than Sonoma</summary>
+  
+  ``` sh
+  brew install kattouf/progressline/progressline
+  ```
+  
+</details>
+
+### [Mint](https://github.com/yonaskolb/Mint) (macOS)
 
 ``` sh
 mint install kattouf/ProgressLine
 ```
 
-### [Mise](https://mise.jdx.dev) (MacOS)
+### [Mise](https://mise.jdx.dev) (macOS)
 
 ``` sh
 mise use -g spm:kattouf/ProgressLine
