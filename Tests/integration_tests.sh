@@ -33,6 +33,11 @@ generate_test_output="swift $TESTS_DIR/test_data_producer.swift $test_data_produ
 output=$($generate_test_output | "$executable_path" --test-mode)
 assert_snapshot "default" "$output"
 
+# Test static text mode
+
+output=$($generate_test_output | "$executable_path" --test-mode --static-text "Static text")
+assert_snapshot "static_text" "$output"
+
 # Test default mode with save original log
 
 output=$($generate_test_output | "$executable_path" --test-mode --original-log-path /tmp/progressline_test_original_log.txt)
