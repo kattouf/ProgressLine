@@ -11,6 +11,9 @@ struct ProgressLine: AsyncParsableCommand {
         usage: "some-command | progressline"
     )
 
+    @Option(name: [.long, .customShort("t")], help: "The static text to display instead of the latest stdin data.")
+    var staticText: String?
+
     @Option(name: [.customLong("activity-style"), .customShort("s")], help: "The style of the activity indicator.")
     var activityIndicatorStyle: ActivityIndicatorStyle = .dots
 
@@ -44,6 +47,7 @@ struct ProgressLine: AsyncParsableCommand {
         let activityIndicator: ActivityIndicator = .make(style: activityIndicatorStyle)
         #endif
         let progressLineController = await ProgressLineController.buildAndStart(
+            textMode: staticText.map { .staticText($0) } ?? .stdin,
             printers: printers,
             logger: logger,
             activityIndicator: activityIndicator,
