@@ -65,6 +65,8 @@ final actor ProgressLineController {
 
     func didGetStdinDataChunk(_ data: Data) async {
         guard case .stdin = textMode else {
+            // we will redraw anyway to sync (prevent flickering) with other log controllers
+            await redrawProgressLine()
             return
         }
 
