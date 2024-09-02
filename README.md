@@ -33,9 +33,9 @@ long-running-command 2>&1 | progressline
 
 ## Features
 
-### Change Activity Indicator Styles
+### Change activity indicator styles
 
-**ProgressLine** offers different styles to represent activity, they can be changed using `-s, --activity-style` argument:
+ProgressLine offers different styles to represent activity, they can be changed using `-s, --activity-style` option:
 
 ``` sh
 long-running-command | progressline --activity-style snake
@@ -47,21 +47,25 @@ Available styles:
 |:--:|:--:|:--:|
 | ![](./.github/activity_style_dots.gif) | ![](./.github/activity_style_snake.gif) | ![](./.github/activity_style_kitt.gif) |
 
+### Replace log output with custom text
+
+If you don't need to see the log output during execution, even in a single line, you can replace it with your own text using the `-t, --static-text` option.
+
+``` sh
+long-running-command | progressline --static-text "Updating sources..."
+```
+
 ### Highlight important lines
 
-Log specific stdin lines above the progress line using the `-m, --log-matches` argument:
+Log specific stdin lines above the progress line using the `-m, --log-matches` option:
 
 ``` sh
 long-running-command | progressline --log-matches "regex-1" --log-matches "regex-2"
 ```
 
-| output |
-|:--:|
-| ![](./.github/progressline_matches_output.png) |
-
 ### Use progress line as an addition to standard output
 
-Log all stdin data above the progress line using the `-a, --log-all` argument:
+Log all stdin data above the progress line using the `-a, --log-all` option:
 
 ```sh
 long-running-command | progressline --log-all
@@ -77,7 +81,7 @@ You have two options for saving the full original log:
 long-running-command | tee original-log.txt | progressline
 ```
 
-2. Using `-l, --original-log-path` argument:
+2. Using `-l, --original-log-path` option:
 
 ``` sh
 long-running-command | progressline --original-log-path original-log.txt
