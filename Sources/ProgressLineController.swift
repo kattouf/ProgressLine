@@ -2,7 +2,13 @@ import Foundation
 import TaggedTime
 
 final actor ProgressLineController {
+    enum TextMode {
+        case staticText(String)
+        case stdin
+    }
+
     // Dependencies
+    private let textMode: TextMode
     private let printers: PrintersHolder
     private let logger: AboveProgressLineLogger
     private let progressLineFormatter: ProgressLineFormatter
@@ -13,11 +19,13 @@ final actor ProgressLineController {
     private var progress: Progress?
 
     private init(
+        textMode: TextMode,
         printers: PrintersHolder,
         logger: AboveProgressLineLogger,
         progressLineFormatter: ProgressLineFormatter,
         progressTracker: ProgressTracker
     ) {
+        self.textMode = textMode
         self.printers = printers
         self.logger = logger
         self.progressLineFormatter = progressLineFormatter
@@ -27,6 +35,7 @@ final actor ProgressLineController {
     // MARK: - Public
 
     static func buildAndStart(
+        textMode: TextMode,
         printers: PrintersHolder,
         logger: AboveProgressLineLogger,
         activityIndicator: ActivityIndicator,
@@ -41,6 +50,7 @@ final actor ProgressLineController {
         )
 
         let controller = Self(
+            textMode: textMode,
             printers: printers,
             logger: logger,
             progressLineFormatter: progressLineFormatter,
@@ -54,6 +64,10 @@ final actor ProgressLineController {
     // MARK: - Input
 
     func didGetStdinDataChunk(_ data: Data) async {
+        guard case .stdin = textMode else {
+            return
+        }
+
         let stdinText = String(data: data, encoding: .utf8)
         guard let stdinText else {
             await logger.logError(ErrorMessage.canNotDecodeData)
@@ -100,7 +114,13 @@ final actor ProgressLineController {
     }
 
     private func redrawProgressLine() async {
-        let progress = progressTracker.moveForward(lastStdinLine)
+        let lineText: String? = switch textMode {
+        case .staticText(let text):
+            text
+        case .stdin:
+            lastStdinLine
+        }
+        let progress = progressTracker.moveForward(lineText)
         let progressLine = progressLineFormatter.inProgress(progress: progress)
         self.progress = progress
         await printers.withPrinter { printer in
