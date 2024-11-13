@@ -1,6 +1,6 @@
 MAKEFLAGS += --no-print-directory
 EXECUTABLE_NAME := progressline
-SWIFT_VERSION := 5.10
+SWIFT_VERSION := 6.0
 ROOT_PATH := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 DOCKER_RUN := docker run --rm --volume $(ROOT_PATH):/workdir --workdir /workdir
 ZIP := zip -j

@@ -1,7 +1,7 @@
 import Foundation
 
 extension String {
-    private nonisolated(unsafe) static let ansiRegex = try! NSRegularExpression(pattern: "\u{1B}(?:[@-Z\\-_]|\\[[0-?]*[ -/]*[@-~])")
+    private static let ansiRegex = try! NSRegularExpression(pattern: "\u{1B}(?:[@-Z\\-_]|\\[[0-?]*[ -/]*[@-~])")
 
     func withoutANSI() -> String {
         let range = NSRange(startIndex ..< endIndex, in: self)

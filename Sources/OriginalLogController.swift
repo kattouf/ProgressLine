@@ -10,7 +10,7 @@ final class OriginalLogController {
         do {
             let url = URL(fileURLWithPath: path)
             try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-            FileManager.default.createFile(atPath: path, contents: nil)
+            _ = FileManager.default.createFile(atPath: path, contents: nil)
             self.fileHandle = try FileHandle(forWritingTo: url)
             fileHandle.seekToEndOfFile()
         } catch {
