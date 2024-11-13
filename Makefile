@@ -37,6 +37,10 @@ long-running-command:
 	@rm -rf .build/apple && swift build -c release --arch x86_64 --arch arm64 2>&1
 .PHONY: long-running-command
 
+generate_release_notes:
+	@git cliff --latest --strip=all --tag $(VERSION) --output .build/artifacts/release_notes.md
+.PHONY: generate_release_notes
+
 prepare_release_artifacts: \
 prepare_release_artifacts_linux_arm64 \
 prepare_release_artifacts_linux_x86_64 \
