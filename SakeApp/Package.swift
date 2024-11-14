@@ -12,12 +12,14 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/kattouf/Sake", from: "0.1.0"),
+        .package(url: "https://github.com/kareman/SwiftShell", from: "5.1.0"),
     ],
     targets: [
         .executableTarget(
             name: "SakeApp",
             dependencies: [
                 "Sake",
+                "SwiftShell",
             ],
             path: "."
         ),
