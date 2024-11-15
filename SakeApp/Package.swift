@@ -11,6 +11,7 @@ let package = Package(
         .executable(name: "SakeApp", targets: ["SakeApp"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.2.0"),
         .package(url: "https://github.com/kattouf/Sake", from: "0.1.0"),
         .package(url: "https://github.com/kareman/SwiftShell", from: "5.1.0"),
     ],
@@ -18,6 +19,7 @@ let package = Package(
         .executableTarget(
             name: "SakeApp",
             dependencies: [
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 "Sake",
                 "SwiftShell",
             ],
