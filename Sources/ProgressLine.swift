@@ -8,7 +8,8 @@ struct ProgressLine: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "progressline",
         abstract: "A command-line tool for compactly tracking the progress of piped commands.",
-        usage: "some-command | progressline"
+        usage: "some-command | progressline",
+        version: progressLineVersion
     )
 
     @Option(name: [.long, .customShort("t")], help: "The static text to display instead of the latest stdin data.")
