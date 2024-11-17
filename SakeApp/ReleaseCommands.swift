@@ -1,5 +1,6 @@
 import ArgumentParser
 import Foundation
+import CryptoKit
 import Sake
 import SwiftShell
 
@@ -89,6 +90,15 @@ struct ReleaseCommands {
         )
     }
 
+    static var cleanReleaseArtifacts: Command {
+        Command(
+            description: "Clean release artifacts",
+            run: { _ in
+                try? runAndPrint("rm", "-rf", Constants.buildArtifactsDirectory)
+            }
+        )
+    }
+
     static var buildReleaseArtifacts: Command {
         Command(
             description: "Build release artifacts",
@@ -98,7 +108,7 @@ struct ReleaseCommands {
                 let version = arguments.version
 
                 let targetsWithExistingArtifacts = Constants.buildTargets.filter { target in
-                    let archivePath = executableArchivePath(triple: target.triple, version: version)
+                    let archivePath = executableArchivePath(target: target, version: version)
                     return FileManager.default.fileExists(atPath: archivePath)
                 }
                 if targetsWithExistingArtifacts.count == Constants.buildTargets.count {
@@ -159,7 +169,7 @@ struct ReleaseCommands {
 
                     try runAndPrint(bash: "\(strip) \(executablePath)")
 
-                    let executableArchivePath = executableArchivePath(triple: target.triple, version: version)
+                    let executableArchivePath = executableArchivePath(target: target, version: version)
                     try runAndPrint(bash: "\(zip) \(executableArchivePath) \(executablePath.replacingOccurrences(of: "/workdir", with: context.projectRoot))")
                 }
 
@@ -168,16 +178,45 @@ struct ReleaseCommands {
         )
     }
 
-    static var cleanReleaseArtifacts: Command {
-        Command(
-            description: "Clean release artifacts",
-            run: { _ in
-                try? runAndPrint("rm", "-rf", Constants.buildArtifactsDirectory)
+    static var calculateBuildArtifactsSha256: Command {
+        @Sendable
+        func shasumFilePath(version: String) -> String {
+            ".build/artifacts/shasum-\(version)"
+        }
+
+        return Command(
+            description: "Calculate SHA-256 checksums for build artifacts",
+            skipIf: { context in
+                let arguments = try ReleaseArguments.parse(context.arguments)
+                try arguments.validate()
+                let version = arguments.version
+
+                let shasumFilePath = shasumFilePath(version: version)
+
+                return FileManager.default.fileExists(atPath: shasumFilePath)
+            },
+            run: { context in
+                let arguments = try ReleaseArguments.parse(context.arguments)
+                try arguments.validate()
+                let version = arguments.version
+
+                var shasumResults = [String]()
+                for target in Constants.buildTargets {
+                    let archivePath = executableArchivePath(target: target, version: version)
+                    let file = FileHandle(forReadingAtPath: archivePath)!
+                    let shasum = SHA256.hash(data: file.readDataToEndOfFile())
+                    let shasumString = shasum.compactMap { String(format: "%02x", $0) }.joined()
+                    shasumResults.append("\(shasumString)  \(archivePath)")
+                }
+                FileManager.default.createFile(
+                    atPath: shasumFilePath(version: version),
+                    contents: shasumResults.joined(separator: "\n").data(using: .utf8)
+                )
             }
         )
     }
 
-    private static func executableArchivePath(triple: String, version: String) -> String {
-        "\(Constants.buildArtifactsDirectory)/\(Constants.executableName)-\(version)-\(triple).zip"
+    private static func executableArchivePath(target: BuildTarget, version: String) -> String {
+        "\(Constants.buildArtifactsDirectory)/\(Constants.executableName)-\(version)-\(target.triple).zip"
     }
 }
