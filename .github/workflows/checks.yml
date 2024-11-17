@@ -1,5 +1,11 @@
-name: Tests
-on: [push]
+name: Checks
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 jobs:
   build:
     name: Integration tests
@@ -16,3 +22,10 @@ jobs:
         run: swift build
       - name: Run tests
         run: ./Tests/integration_tests.sh .build/debug/progressline
+  lint:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Run SwiftFormat Linting
+        run: swiftformat Sources SakeApp Package.swift --lint
