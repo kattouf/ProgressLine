@@ -52,9 +52,22 @@ struct ReleaseCommands {
         }
     }
 
-    public static var release: Command {
+    public static var brewRelease: Command {
         Command(
-            description: "Release",
+            description: "Brew to Homebrew",
+            run: { context in
+                let arguments = try ReleaseArguments.parse(context.arguments)
+                try arguments.validate()
+
+                let version = arguments.version
+                try runAndPrint("brew", "bump-formula-pr", "--version=\(version)", "progressline")
+            }
+        )
+    }
+
+    public static var githubRelease: Command {
+        Command(
+            description: "Release to GitHub",
             dependencies: [
                 bumpVersion,
                 cleanReleaseArtifacts,
@@ -66,7 +79,6 @@ struct ReleaseCommands {
             ]
         )
     }
-
 
     static var bumpVersion: Command {
         Command(
