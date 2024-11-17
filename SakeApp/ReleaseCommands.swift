@@ -52,6 +52,22 @@ struct ReleaseCommands {
         }
     }
 
+    public static var release: Command {
+        Command(
+            description: "Release",
+            dependencies: [
+                bumpVersion,
+                cleanReleaseArtifacts,
+                buildReleaseArtifacts,
+                calculateBuildArtifactsSha256,
+                createAndPushTag,
+                generateReleaseNotes,
+                draftReleaseWithArtifacts,
+            ]
+        )
+    }
+
+
     static var bumpVersion: Command {
         Command(
             description: "Bump version",
@@ -216,7 +232,102 @@ struct ReleaseCommands {
         )
     }
 
+    static var createAndPushTag: Command {
+        Command(
+            description: "Create and push a tag",
+            skipIf: { context in
+                let arguments = try ReleaseArguments.parse(context.arguments)
+                try arguments.validate()
+
+                let version = arguments.version
+
+                let grepResult = run(bash: "git tag | grep \(arguments.version)")
+                if grepResult.succeeded {
+                    print("Tag \(version) already exists. Skipping...")
+                    return true
+                } else {
+                    return false
+                }
+            },
+            run: { context in
+                let arguments = try ReleaseArguments.parse(context.arguments)
+                try arguments.validate()
+
+                let version = arguments.version
+
+                print("Creating and pushing tag \(version)")
+                try runAndPrint("git", "tag", version)
+                try runAndPrint("git", "push", "origin", "tag", version)
+                try runAndPrint("git", "push") // push local changes like version bump
+            }
+        )
+    }
+
+    static var generateReleaseNotes: Command {
+        Command(
+            description: "Generate release notes",
+            dependencies: [BrewCommands.ensureGitCliffInstalled],
+            skipIf: { context in
+                let arguments = try ReleaseArguments.parse(context.arguments)
+                try arguments.validate()
+
+                let version = arguments.version
+                let releaseNotesPath = releaseNotesPath(version: version)
+                if FileManager.default.fileExists(atPath: releaseNotesPath) {
+                    print("Release notes for \(version) already exist at \(releaseNotesPath). Skipping...")
+                    return true
+                } else {
+                    return false
+                }
+            },
+            run: { context in
+                let arguments = try ReleaseArguments.parse(context.arguments)
+                try arguments.validate()
+
+                let version = arguments.version
+                let releaseNotesPath = releaseNotesPath(version: version)
+                try runAndPrint("git", "cliff", "--latest", "--strip=all", "--tag", version, "--output", releaseNotesPath)
+                print("Release notes generated at \(releaseNotesPath)")
+            }
+        )
+    }
+
+    static var draftReleaseWithArtifacts: Command {
+        Command(
+            description: "Draft a release on GitHub",
+            dependencies: [BrewCommands.ensureGhInstalled],
+            skipIf: { context in
+                let arguments = try ReleaseArguments.parse(context.arguments)
+                try arguments.validate()
+
+                let tagName = arguments.version
+                let ghViewResult = run(bash: "gh release view \(tagName)")
+                if ghViewResult.succeeded {
+                    print("Release \(tagName) already exists. Skipping...")
+                    return true
+                } else {
+                    return false
+                }
+            },
+            run: { context in
+                let arguments = try ReleaseArguments.parse(context.arguments)
+                try arguments.validate()
+
+                print("Drafting release \(arguments.version) on GitHub")
+                let tagName = arguments.version
+                let releaseTitle = arguments.version
+                let draftReleaseCommand =
+                    "gh release create \(tagName) \(Constants.buildArtifactsDirectory)/*.zip --title '\(releaseTitle)' --draft --verify-tag --notes-file \(releaseNotesPath(version: tagName))"
+                try runAndPrint(bash: draftReleaseCommand)
+            }
+        )
+    }
+
     private static func executableArchivePath(target: BuildTarget, version: String) -> String {
         "\(Constants.buildArtifactsDirectory)/\(Constants.executableName)-\(version)-\(target.triple).zip"
+    }
+
+    private static func releaseNotesPath(version: String) -> String {
+        ".build/artifacts/release-notes-\(version).md"
     }
 }
