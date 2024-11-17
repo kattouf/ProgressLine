@@ -32,7 +32,9 @@ final class WindowSizeObserver: Sendable {
         signal(sigwinch, SIG_IGN)
 
         signalHandler.setEventHandler { [weak self] in
-            guard let self = self else { return }
+            guard let self else {
+                return
+            }
             self.syncWindowSize()
         }
         signalHandler.resume()
@@ -48,9 +50,9 @@ final class WindowSizeObserver: Sendable {
     static func getTerminalSize() -> Size {
         var w = winsize()
         #if os(Linux)
-        _ = ioctl(STDOUT_FILENO, UInt(TIOCGWINSZ), &w)
+            _ = ioctl(STDOUT_FILENO, UInt(TIOCGWINSZ), &w)
         #else
-        _ = ioctl(STDOUT_FILENO, TIOCGWINSZ, &w)
+            _ = ioctl(STDOUT_FILENO, TIOCGWINSZ, &w)
         #endif
         return Size(width: Int(w.ws_col), height: Int(w.ws_row))
     }

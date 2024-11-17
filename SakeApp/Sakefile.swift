@@ -12,6 +12,26 @@ struct Commands: SakeApp {
             ReleaseCommands.self,
         ]
     )
+
+    public static var lint: Command {
+        Command(
+            description: "Lint code",
+            dependencies: [BrewCommands.ensureSwiftFormatInstalled],
+            run: { _ in
+                try runAndPrint("swiftformat", "Sources", "SakeApp", "Package.swift", "--lint")
+            }
+        )
+    }
+
+    public static var format: Command {
+        Command(
+            description: "Format code",
+            dependencies: [BrewCommands.ensureSwiftFormatInstalled],
+            run: { _ in
+                try runAndPrint("swiftformat", "Sources", "SakeApp", "Package.swift")
+            }
+        )
+    }
 }
 
 @CommandGroup
@@ -23,7 +43,7 @@ struct TestCommands {
             run: { context in
                 try runAndPrint(
                     bash:
-                        "\(context.projectRoot)/Tests/integration_tests.sh \(context.projectRoot)/.build/debug/progressline"
+                    "\(context.projectRoot)/Tests/integration_tests.sh \(context.projectRoot)/.build/debug/progressline"
                 )
             }
         )

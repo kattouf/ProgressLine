@@ -1,8 +1,8 @@
 #if os(Linux)
-// Linux implementation of FileHandle not Sendable
-@preconcurrency import Foundation
+    // Linux implementation of FileHandle not Sendable
+    @preconcurrency import Foundation
 #else
-import Foundation
+    import Foundation
 #endif
 
 extension FileHandle {

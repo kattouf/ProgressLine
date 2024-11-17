@@ -79,11 +79,11 @@ extension ActivityIndicator {
 }
 
 #if DEBUG
-extension ActivityIndicator {
-    static func disabled() -> ActivityIndicator {
-        .init(
-            configuration: .init(refreshRate: 1_000_000_000, states: [])
-        )
+    extension ActivityIndicator {
+        static func disabled() -> ActivityIndicator {
+            .init(
+                configuration: .init(refreshRate: 1_000_000_000, states: [])
+            )
+        }
     }
-}
 #endif

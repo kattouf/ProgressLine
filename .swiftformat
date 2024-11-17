@@ -1,0 +1,11 @@
+--swiftversion 5.10
+
+--exclude .build,.index-build,SakeApp/.build,SakeApp/.index-build
+
+--maxwidth 140
+--wraparguments before-first
+--wrapparameters before-first
+--wrapcollections before-first
+
+--enable isEmpty,wrapSwitchCases,wrapConditionalBodies,wrapEnumCases
+--disable redundantRawValues,redundantSelf,redundantStaticSelf,redundantType

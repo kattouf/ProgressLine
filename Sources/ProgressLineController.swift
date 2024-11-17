@@ -117,7 +117,7 @@ final actor ProgressLineController {
 
     private func redrawProgressLine() async {
         let lineText: String? = switch textMode {
-        case .staticText(let text):
+        case let .staticText(text):
             text
         case .stdin:
             lastStdinLine

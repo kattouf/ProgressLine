@@ -15,21 +15,27 @@ enum ANSI {
     static var red: String {
         noStyleMode ? "" : "\u{1B}[31m"
     }
+
     static var green: String {
         noStyleMode ? "" : "\u{1B}[32m"
     }
+
     static var yellow: String {
         noStyleMode ? "" : "\u{1B}[33m"
     }
+
     static var blue: String {
         noStyleMode ? "" : "\u{1B}[34m"
     }
+
     static var magenta: String {
         noStyleMode ? "" : "\u{1B}[35m"
     }
+
     static var bold: String {
         noStyleMode ? "" : "\u{1B}[1m"
     }
+
     static var reset: String {
         noStyleMode ? "" : "\u{1B}[0m"
     }

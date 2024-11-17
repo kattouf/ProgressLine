@@ -1,6 +1,6 @@
 import ArgumentParser
-import Foundation
 import CryptoKit
+import Foundation
 import Sake
 import SwiftShell
 
@@ -11,6 +11,7 @@ struct ReleaseCommands {
             case x86
             case arm
         }
+
         enum OS {
             case macos
             case linux
@@ -21,10 +22,10 @@ struct ReleaseCommands {
 
         var triple: String {
             switch (arch, os) {
-                case (.x86, .macos): "x86_64-apple-macosx"
-                case (.arm, .macos): "arm64-apple-macosx"
-                case (.x86, .linux): "x86_64-unknown-linux-gnu"
-                case (.arm, .linux): "aarch64-unknown-linux-gnu"
+            case (.x86, .macos): "x86_64-apple-macosx"
+            case (.arm, .macos): "arm64-apple-macosx"
+            case (.x86, .linux): "x86_64-unknown-linux-gnu"
+            case (.arm, .linux): "aarch64-unknown-linux-gnu"
             }
         }
     }
@@ -167,7 +168,8 @@ struct ReleaseCommands {
                         let buildFlags = ["--disable-sandbox", "--configuration", "release", "--triple", target.triple]
                         if target.os == .linux {
                             let platform = target.arch == .arm ? "linux/arm64" : "linux/amd64"
-                            let dockerExec = "docker run --rm --volume \(context.projectRoot):/workdir --workdir /workdir --platform \(platform) swift:\(Constants.swiftVersion)"
+                            let dockerExec =
+                                "docker run --rm --volume \(context.projectRoot):/workdir --workdir /workdir --platform \(platform) swift:\(Constants.swiftVersion)"
                             let buildFlags = (buildFlags + ["--static-swift-stdlib"]).joined(separator: " ")
                             return (
                                 "\(dockerExec) swift build \(buildFlags)",
@@ -178,10 +180,10 @@ struct ReleaseCommands {
                         } else {
                             let buildFlags = buildFlags.joined(separator: " ")
                             return (
-                            "swift build \(buildFlags)",
-                            "swift package clean",
-                            "strip -rSTx",
-                            "zip -j"
+                                "swift build \(buildFlags)",
+                                "swift package clean",
+                                "strip -rSTx",
+                                "zip -j"
                             )
                         }
                     }()
@@ -198,7 +200,9 @@ struct ReleaseCommands {
                     try runAndPrint(bash: "\(strip) \(executablePath)")
 
                     let executableArchivePath = executableArchivePath(target: target, version: version)
-                    try runAndPrint(bash: "\(zip) \(executableArchivePath) \(executablePath.replacingOccurrences(of: "/workdir", with: context.projectRoot))")
+                    try runAndPrint(
+                        bash: "\(zip) \(executableArchivePath) \(executablePath.replacingOccurrences(of: "/workdir", with: context.projectRoot))"
+                    )
                 }
 
                 print("Release artifacts built successfully at '\(Constants.buildArtifactsDirectory)'")

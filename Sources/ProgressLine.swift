@@ -21,15 +21,18 @@ struct ProgressLine: AsyncParsableCommand {
     @Option(name: [.customLong("original-log-path"), .customShort("l")], help: "Save the original log to a file.")
     var originalLogPath: String?
 
-    @Option(name: [.customLong("log-matches"), .customShort("m")], help: "Log above progress line lines matching the given regular expressions.")
+    @Option(
+        name: [.customLong("log-matches"), .customShort("m")],
+        help: "Log above progress line lines matching the given regular expressions."
+    )
     var matchesToLog: [String] = []
 
     @Flag(name: [.customLong("log-all"), .customShort("a")], help: "Log all lines above the progress line.")
     var shouldLogAll: Bool = false
 
     #if DEBUG
-    @Flag(name: [.customLong("test-mode")], help: "Enable test mode. Activity indicator will be replaced with a static string.")
-    var testMode: Bool = false
+        @Flag(name: [.customLong("test-mode")], help: "Enable test mode. Activity indicator will be replaced with a static string.")
+        var testMode: Bool = false
     #endif
 
     mutating func run() async throws {
@@ -42,10 +45,10 @@ struct ProgressLine: AsyncParsableCommand {
         let logger = AboveProgressLineLogger(printers: printers)
 
         #if DEBUG
-        let activityIndicator: ActivityIndicator = testMode ? .disabled() : .make(style: activityIndicatorStyle)
+            let activityIndicator: ActivityIndicator = testMode ? .disabled() : .make(style: activityIndicatorStyle)
         #else
-        let testMode = false
-        let activityIndicator: ActivityIndicator = .make(style: activityIndicatorStyle)
+            let testMode = false
+            let activityIndicator: ActivityIndicator = .make(style: activityIndicatorStyle)
         #endif
         let progressLineController = await ProgressLineController.buildAndStart(
             textMode: staticText.map { .staticText($0) } ?? .stdin,

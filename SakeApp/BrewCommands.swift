@@ -3,6 +3,18 @@ import SwiftShell
 
 @CommandGroup
 struct BrewCommands {
+    static var ensureSwiftFormatInstalled: Command {
+        Command(
+            description: "Ensure swiftformat is installed",
+            skipIf: { _ in
+                run("which", "swiftformat").succeeded
+            },
+            run: { _ in
+                try runAndPrint("brew", "install", "swiftformat")
+            }
+        )
+    }
+
     static var ensureGhInstalled: Command {
         Command(
             description: "Ensure gh is installed",
