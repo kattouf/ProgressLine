@@ -4,6 +4,9 @@ enum ActivityIndicatorStyle: String, CaseIterable, ExpressibleByArgument {
     case dots
     case kitt
     case snake
+    case spinner
+    case wave
+    case bounce
 }
 
 extension ActivityIndicator {
@@ -15,6 +18,12 @@ extension ActivityIndicator {
             .kitt
         case .snake:
             .snake
+        case .spinner:
+            .spinner
+        case .wave:
+            .wave
+        case .bounce:
+            .bounce
         }
     }
 }

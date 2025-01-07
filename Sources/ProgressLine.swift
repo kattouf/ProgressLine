@@ -16,7 +16,7 @@ struct ProgressLine: AsyncParsableCommand {
     var staticText: String?
 
     @Option(name: [.customLong("activity-style"), .customShort("s")], help: "The style of the activity indicator.")
-    var activityIndicatorStyle: ActivityIndicatorStyle = .dots
+    var activityIndicatorStyle: ActivityIndicatorStyle = .spinner
 
     @Option(name: [.customLong("original-log-path"), .customShort("l")], help: "Save the original log to a file.")
     var originalLogPath: String?
