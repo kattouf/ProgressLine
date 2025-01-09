@@ -43,24 +43,9 @@ long-running-command | progressline --activity-style snake
 
 Available styles:
 
-<table>
-  <tr>
-    <td align="center">dots (Default)</td>
-    <td align="center">snake</td>
-    <td align="center"><a href="https://en.wikipedia.org/wiki/KITT">kitt</a></td>
-  </tr>
-  <tr>
-    <td><img src="./.github/activity_style_dots.gif" alt="dots" width="300"></td>
-    <td><img src="./.github/activity_style_snake.gif" alt="snake" width="300"></td>
-    <td><img src="./.github/activity_style_kitt.gif" alt="kitt" width="300"></td>
-  </tr>
-  <tr>
-    <td align="center">spinner</td>
-  </tr>
-  <tr>
-    <td><img src="./.github/activity_style_spinner.gif" alt="spinner" width="300"></td>
-  </tr>
-</table>
+| dots (Default) | snake | [kitt](https://en.wikipedia.org/wiki/KITT) | spinner |
+|:--:|:--:|:--:|:--:|
+| ![](./.github/activity_style_dots.gif) | ![](./.github/activity_style_snake.gif) | ![](./.github/activity_style_kitt.gif) | ![](./.github/activity_style_spinner.gif) |
 
 ### Replace log output with custom text
 
