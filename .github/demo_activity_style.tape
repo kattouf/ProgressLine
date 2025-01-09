@@ -2,7 +2,7 @@ Output out.gif
 
 Set Shell "zsh"
 Set FontSize 32
-Set Width 620
+Set Width 660
 Set Height 300
 Set TypingSpeed 75ms
 
