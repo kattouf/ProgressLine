@@ -110,13 +110,6 @@ long-running-command | progressline --original-log-path original-log.txt
 brew install progressline
 ```
 
-<details>
-  <summary>If you have macOS version older than Sonoma</summary>
-  
-  ``` sh
-  brew install kattouf/progressline/progressline
-  ```
-  
 </details>
 
 ### [Mint](https://github.com/yonaskolb/Mint) (macOS)
