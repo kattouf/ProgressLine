@@ -1,6 +1,8 @@
 # Knightrider
-- name: kitt
-  refreshRate: 125
+- name: kitt      # Custom style name
+  checkmark: "✔"  # Custom checkmark
+  prompt: "➤"     # Custom prompt
+  refreshRate: 125 # Custom refresh in miliseconds
   states:
     - "▰▱▱▱▱"
     - "▰▰▱▱▱"
