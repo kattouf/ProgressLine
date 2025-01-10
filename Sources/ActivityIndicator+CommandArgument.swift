@@ -1,12 +1,11 @@
 import ArgumentParser
+import TaggedTime
 
 enum ActivityIndicatorStyle: ExpressibleByArgument {
     case dots
     case kitt
     case snake
     case spinner
-    case wave
-    case bounce
     case custom(String)
     
     init?(argument: String) {
@@ -15,14 +14,12 @@ enum ActivityIndicatorStyle: ExpressibleByArgument {
         case "kitt": self = .kitt
         case "snake": self = .snake
         case "spinner": self = .spinner
-        case "wave": self = .wave
-        case "bounce": self = .bounce
         default: self = .custom(argument)
         }
     }
     
     static var allCases: [String] {
-        ["dots", "kitt", "snake", "spinner", "wave", "bounce"]
+        ["dots", "kitt", "snake", "spinner"]
     }
 }
 
@@ -35,7 +32,7 @@ extension ActivityIndicator {
                     return ActivityConfiguration.createActivityIndicator(from: matchingConfig)
                 }
             } catch {
-                print("Warning: Failed to load custom style '\(styleName)' from config: \(error)")
+                print("\(ANSI.yellow)[!] progressline: Failed to load custom style '\(styleName)' from config: \(error)\(ANSI.reset)")
             }
         }
         
@@ -45,8 +42,6 @@ extension ActivityIndicator {
         case .kitt: return .kitt
         case .snake: return .snake
         case .spinner: return .spinner
-        case .wave: return .wave
-        case .bounce: return .bounce
         case .custom(_): return .spinner // Default to spinner if custom style fails to load
         }
     }

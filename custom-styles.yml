@@ -11,16 +11,37 @@
 - name: arrows
   refreshRate: 150
   states:
-    - →
-    - ⇒
-    - ⟹
-    - ⇒
+    - "→"
+    - "⇒"
+    - "⟹"
+    - "⇒"
 
 # Matrix-style falling characters
-- name: matrix
+- name: blocks
   refreshRate: 100
   states:
-    - "⣾⠿"
-    - "⣽⠿"
-    - "⣻⠿"
-    - "⢿⠿"
+    - "▒  "
+    - "▓  "
+    - "█  "
+    - "█░ "
+    - "█▒ "
+    - "█▓ "
+    - "██ "
+    - "██░"
+    - "██▒"
+    - "██▓"
+    - "███"
+    - "░  "
+
+# Contruct rotating
+- name: cross
+  refreshRate: 100
+  states:
+    - "╔"
+    - "╦"
+    - "╗"
+    - "╣"
+    - "╝"
+    - "╩"
+    - "╚"
+    - "╠"

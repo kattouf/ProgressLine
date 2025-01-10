@@ -89,35 +89,6 @@ extension ActivityIndicator {
         )
         return ActivityIndicator(configuration: configuration)
     }()
-
-    static let wave: ActivityIndicator = {
-        let configuration = Configuration(
-            refreshRate: 125,
-            states: [
-                "o...",
-                "Oo..",
-                "oOo.",
-                ".oOo",
-                "..oO",
-                "...o",
-            ]
-        )
-        return ActivityIndicator(configuration: configuration)
-    }()
-
-    static let bounce: ActivityIndicator = {
-        let configuration = Configuration(
-            refreshRate: 125,
-            states: [
-                ".",
-                "o",
-                "O",
-                "o",
-                ".",
-            ]
-        )
-        return ActivityIndicator(configuration: configuration)
-    }()
 }
 
 #if DEBUG

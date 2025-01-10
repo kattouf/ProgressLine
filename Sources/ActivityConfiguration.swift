@@ -1,5 +1,6 @@
 import Foundation
 import Yams
+import TaggedTime
 
 struct ActivityStyleConfig: Codable {
     let name: String
