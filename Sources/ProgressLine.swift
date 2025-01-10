@@ -49,26 +49,29 @@ struct ProgressLine: AsyncParsableCommand {
 
         #if DEBUG
         let (indicator, checkmark, prompt) = testMode ? 
-            testMode ? (ActivityIndicator.disabled(), "✓", ">") : 
-                      ActivityIndicator.make(style: activityIndicatorStyle, configPath: configPath)
+            (ActivityIndicator.disabled(), "✓", ">") : 
+            ActivityIndicator.make(style: activityIndicatorStyle, configPath: configPath)
         #else
             let testMode = false
-            let activityIndicator: ActivityIndicator = .make(style: activityIndicatorStyle, configPath: configPath)
+            let (indicator, checkmark, prompt) = ActivityIndicator.make(style: activityIndicatorStyle, configPath: configPath)
         #endif
+
         let progressLineController = await ProgressLineController.buildAndStart(
             textMode: staticText.map { .staticText($0) } ?? .stdin,
             printers: printers,
             logger: logger,
-            activityIndicator: activityIndicator,
-            checkmark: activityIndicator.checkmark,
-            prompt: activityIndicator.prompt,
+            activityIndicator: indicator,
+            checkmark: checkmark,
+            prompt: prompt,
             mockActivityAndDuration: testMode
         )
+
         let originalLogController = if let originalLogPath {
             await OriginalLogController(logger: logger, path: originalLogPath)
         } else {
             OriginalLogController?.none
         }
+        
         let matchesController = await MatchesController(logger: logger, regexps: matchesToLog)
         let logAllController = shouldLogAll ? LogAllController(logger: logger) : nil
 
