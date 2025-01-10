@@ -39,6 +39,8 @@ final actor ProgressLineController {
         printers: PrintersHolder,
         logger: AboveProgressLineLogger,
         activityIndicator: ActivityIndicator,
+        checkmark: String,
+        prompt: String,
         mockActivityAndDuration: Bool = false
     ) async -> Self {
         let progressTracker = ProgressTracker.start()
@@ -46,7 +48,9 @@ final actor ProgressLineController {
         let progressLineFormatter = ProgressLineFormatter(
             activityIndicator: activityIndicator,
             windowSizeObserver: windowSizeObserver,
-            mockActivityAndDuration: mockActivityAndDuration
+            mockActivityAndDuration: mockActivityAndDuration,
+            checkmark: checkmark,
+            prompt: prompt
         )
 
         let controller = Self(

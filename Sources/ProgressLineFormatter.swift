@@ -21,15 +21,21 @@ final class ProgressLineFormatter: Sendable {
     private let activityIndicator: ActivityIndicator
     private let windowSizeObserver: WindowSizeObserver?
     private let mockActivityAndDuration: Bool
+    private let checkmark: String
+    private let prompt: String
 
     init(
         activityIndicator: ActivityIndicator,
         windowSizeObserver: WindowSizeObserver?,
-        mockActivityAndDuration: Bool
+        mockActivityAndDuration: Bool,
+        checkmark: String,
+        prompt: String
     ) {
         self.activityIndicator = activityIndicator
         self.windowSizeObserver = windowSizeObserver
         self.mockActivityAndDuration = mockActivityAndDuration
+        self.checkmark = checkmark
+        self.prompt = prompt
     }
 
     func inProgress(progress: Progress) -> String {

@@ -48,7 +48,9 @@ struct ProgressLine: AsyncParsableCommand {
         let logger = AboveProgressLineLogger(printers: printers)
 
         #if DEBUG
-            let activityIndicator: ActivityIndicator = testMode ? .disabled() : .make(style: activityIndicatorStyle, configPath: configPath)
+        let activityIndicator: (indicator: ActivityIndicator, checkmark: String, prompt: String) = 
+            testMode ? (ActivityIndicator.disabled(), "✓", ">") : 
+                      ActivityIndicator.make(style: activityIndicatorStyle, configPath: configPath)
         #else
             let testMode = false
             let activityIndicator: ActivityIndicator = .make(style: activityIndicatorStyle, configPath: configPath)
@@ -58,6 +60,8 @@ struct ProgressLine: AsyncParsableCommand {
             printers: printers,
             logger: logger,
             activityIndicator: activityIndicator,
+            checkmark: activityIndicator.checkmark,
+            prompt: activityIndicator.prompt,
             mockActivityAndDuration: testMode
         )
         let originalLogController = if let originalLogPath {
