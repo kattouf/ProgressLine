@@ -36,6 +36,8 @@ final class ProgressLineFormatter: Sendable {
         self.mockActivityAndDuration = mockActivityAndDuration
         self.checkmark = checkmark
         self.prompt = prompt
+        // Debug logging for symbols
+        print("Initialized ProgressLineFormatter with checkmark: '\(checkmark)' and prompt: '\(prompt)'")
     }
 
     func inProgress(progress: Progress) -> String {
@@ -44,7 +46,7 @@ final class ProgressLineFormatter: Sendable {
 
         let styledActivityIndicator = ANSI.blue + activityIndicator + ANSI.reset
         let styledDuration = ANSI.bold + formattedDuration + ANSI.reset
-        let styledPrompt = ANSI.blue + Symbol.prompt + ANSI.reset
+        let styledPrompt = ANSI.blue + prompt + ANSI.reset
 
         return buildResultString(
             styledActivityIndicator: styledActivityIndicator,
@@ -57,9 +59,9 @@ final class ProgressLineFormatter: Sendable {
     func finished(progress: Progress?) -> String {
         let formattedDuration = mockActivityAndDuration ? "<duration>" : progress.map { formatDuration(from: $0.duration) }
 
-        let styledActivityIndicator = ANSI.green + Symbol.checkmark + ANSI.reset
+        let styledActivityIndicator = ANSI.green + checkmark + ANSI.reset
         let styledDuration = formattedDuration.map { ANSI.bold + $0 + ANSI.reset }
-        let styledPrompt = ANSI.green + Symbol.prompt + ANSI.reset
+        let styledPrompt = ANSI.green + prompt + ANSI.reset
 
         return buildResultString(
             styledActivityIndicator: styledActivityIndicator,

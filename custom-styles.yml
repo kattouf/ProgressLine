@@ -1,7 +1,7 @@
 # Knightrider
 - name: kitt      # Custom style name
   checkmark: "✔"  # Custom checkmark
-  prompt: "➤"     # Custom prompt
+  prompt: ">"     # Custom prompt
   refreshRate: 125 # Custom refresh in miliseconds
   states:
     - "▰▱▱▱▱"
@@ -19,6 +19,8 @@
 
 # Snake
 - name: snake
+  checkmark: "✔"
+  prompt: ">"
   refreshRate: 125
   states:
     - "▰▱▱▱▱"
@@ -32,6 +34,8 @@
 
 # Built-in like animation with hearts
 - name: hearts
+  checkmark: "❤️"
+  prompt: "💘"
   refreshRate: 125
   states:
     - 💗
@@ -41,6 +45,8 @@
 
 # Arrow animation with longer refresh rate
 - name: arrows
+  checkmark: "✔"
+  prompt: ">"
   refreshRate: 150
   states:
     - "→ "
@@ -50,6 +56,8 @@
 
 # Blocks progressing
 - name: blocks
+  checkmark: "✔"
+  prompt: ">"
   refreshRate: 100
   states:
     - "▒  "
@@ -67,6 +75,8 @@
 
 # Rotating cross
 - name: cross
+  checkmark: "✔"
+  prompt: ">"
   refreshRate: 100
   states:
     - "╔"
