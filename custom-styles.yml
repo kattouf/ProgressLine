@@ -1,6 +1,36 @@
+# Knightrider
+- name: kitt
+  refreshRate: 125
+  states:
+    - "▰▱▱▱▱"
+    - "▰▰▱▱▱"
+    - "▰▰▰▱▱"
+    - "▱▰▰▰▱"
+    - "▱▱▰▰▰"
+    - "▱▱▱▰▰"
+    - "▱▱▱▱▰"
+    - "▱▱▱▰▰"
+    - "▱▱▰▰▰"
+    - "▱▰▰▰▱"
+    - "▰▰▰▱▱"
+    - "▰▰▱▱▱"
+
+# Snake
+- name: snake
+  refreshRate: 125
+  states:
+    - "▰▱▱▱▱"
+    - "▰▰▱▱▱"
+    - "▰▰▰▱▱"
+    - "▱▰▰▰▱"
+    - "▱▱▰▰▰"
+    - "▱▱▱▰▰"
+    - "▱▱▱▱▰"
+    - "▱▱▱▱▱"
+
 # Built-in like animation with hearts
 - name: hearts
-  refreshRate: 125  # milliseconds between states
+  refreshRate: 125
   states:
     - 💗
     - 💓
@@ -11,12 +41,12 @@
 - name: arrows
   refreshRate: 150
   states:
-    - "→"
-    - "⇒"
-    - "⟹"
-    - "⇒"
+    - "→ "
+    - "⇒ "
+    - "⟹ "
+    - "⇒ "
 
-# Matrix-style falling characters
+# Blocks progressing
 - name: blocks
   refreshRate: 100
   states:
@@ -33,7 +63,7 @@
     - "███"
     - "░  "
 
-# Contruct rotating
+# Rotating cross
 - name: cross
   refreshRate: 100
   states:

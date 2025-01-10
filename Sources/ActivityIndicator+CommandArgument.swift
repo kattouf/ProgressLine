@@ -3,23 +3,19 @@ import TaggedTime
 
 enum ActivityIndicatorStyle: ExpressibleByArgument {
     case dots
-    case kitt
-    case snake
     case spinner
     case custom(String)
     
     init?(argument: String) {
         switch argument {
         case "dots": self = .dots
-        case "kitt": self = .kitt
-        case "snake": self = .snake
         case "spinner": self = .spinner
         default: self = .custom(argument)
         }
     }
     
     static var allCases: [String] {
-        ["dots", "kitt", "snake", "spinner"]
+        ["dots", "spinner"]
     }
 }
 
@@ -39,8 +35,6 @@ extension ActivityIndicator {
         // Fallback to built-in styles
         switch style {
         case .dots: return .dots
-        case .kitt: return .kitt
-        case .snake: return .snake
         case .spinner: return .spinner
         case .custom(_): return .spinner // Default to spinner if custom style fails to load
         }

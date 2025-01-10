@@ -39,44 +39,6 @@ extension ActivityIndicator {
         return ActivityIndicator(configuration: configuration)
     }()
 
-    static let kitt: ActivityIndicator = {
-        let configuration = Configuration(
-            refreshRate: 125,
-            states: [
-                "▰▱▱▱▱",
-                "▰▰▱▱▱",
-                "▰▰▰▱▱",
-                "▱▰▰▰▱",
-                "▱▱▰▰▰",
-                "▱▱▱▰▰",
-                "▱▱▱▱▰",
-                "▱▱▱▰▰",
-                "▱▱▰▰▰",
-                "▱▰▰▰▱",
-                "▰▰▰▱▱",
-                "▰▰▱▱▱",
-            ]
-        )
-        return ActivityIndicator(configuration: configuration)
-    }()
-
-    static let snake: ActivityIndicator = {
-        let configuration = Configuration(
-            refreshRate: 125,
-            states: [
-                "▰▱▱▱▱",
-                "▰▰▱▱▱",
-                "▰▰▰▱▱",
-                "▱▰▰▰▱",
-                "▱▱▰▰▰",
-                "▱▱▱▰▰",
-                "▱▱▱▱▰",
-                "▱▱▱▱▱",
-            ]
-        )
-        return ActivityIndicator(configuration: configuration)
-    }()
-
     static let spinner: ActivityIndicator = {
         let configuration = Configuration(
             refreshRate: 125,
