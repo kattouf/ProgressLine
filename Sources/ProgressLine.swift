@@ -15,8 +15,11 @@ struct ProgressLine: AsyncParsableCommand {
     @Option(name: [.long, .customShort("t")], help: "The static text to display instead of the latest stdin data.")
     var staticText: String?
 
-    @Option(name: [.customLong("activity-style"), .customShort("s")], help: "The style of the activity indicator.")
+    @Option(name: [.customLong("activity-style"), .customShort("s")], help: "The style of the activity indicator (built-in or custom).")
     var activityIndicatorStyle: ActivityIndicatorStyle = .spinner
+
+    @Option(name: [.customLong("config-path"), .customShort("c")], help: "Path to the activity styles configuration file.")
+    var configPath: String?
 
     @Option(name: [.customLong("original-log-path"), .customShort("l")], help: "Save the original log to a file.")
     var originalLogPath: String?

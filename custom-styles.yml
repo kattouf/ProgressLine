@@ -1,0 +1,26 @@
+# Built-in like animation with hearts
+- name: hearts
+  refreshRate: 125  # milliseconds between states
+  states:
+    - 💗
+    - 💓
+    - 💝
+    - 💓
+
+# Arrow animation with longer refresh rate
+- name: arrows
+  refreshRate: 150
+  states:
+    - →
+    - ⇒
+    - ⟹
+    - ⇒
+
+# Matrix-style falling characters
+- name: matrix
+  refreshRate: 100
+  states:
+    - "⣾⠿"
+    - "⣽⠿"
+    - "⣻⠿"
+    - "⢿⠿"
