@@ -15,8 +15,11 @@ struct ProgressLine: AsyncParsableCommand {
     @Option(name: [.long, .customShort("t")], help: "The static text to display instead of the latest stdin data.")
     var staticText: String?
 
-    @Option(name: [.customLong("activity-style"), .customShort("s")], help: "The style of the activity indicator.")
-    var activityIndicatorStyle: ActivityIndicatorStyle = .dots
+    @Option(name: [.customLong("activity-style"), .customShort("s")], help: "The style of the activity indicator (built-in or custom).")
+    var activityIndicatorStyle: ActivityIndicatorStyle = .spinner
+
+    @Option(name: [.customLong("config-path"), .customShort("c")], help: "Path to the activity styles configuration file.")
+    var configPath: String?
 
     @Option(name: [.customLong("original-log-path"), .customShort("l")], help: "Save the original log to a file.")
     var originalLogPath: String?
@@ -45,23 +48,30 @@ struct ProgressLine: AsyncParsableCommand {
         let logger = AboveProgressLineLogger(printers: printers)
 
         #if DEBUG
-            let activityIndicator: ActivityIndicator = testMode ? .disabled() : .make(style: activityIndicatorStyle)
+        let (indicator, checkmark, prompt) = testMode ? 
+            (ActivityIndicator.disabled(), "✓", ">") : 
+            ActivityIndicator.make(style: activityIndicatorStyle, configPath: configPath)
         #else
             let testMode = false
-            let activityIndicator: ActivityIndicator = .make(style: activityIndicatorStyle)
+            let (indicator, checkmark, prompt) = ActivityIndicator.make(style: activityIndicatorStyle, configPath: configPath)
         #endif
+
         let progressLineController = await ProgressLineController.buildAndStart(
             textMode: staticText.map { .staticText($0) } ?? .stdin,
             printers: printers,
             logger: logger,
-            activityIndicator: activityIndicator,
+            activityIndicator: indicator,
+            checkmark: checkmark,
+            prompt: prompt,
             mockActivityAndDuration: testMode
         )
+
         let originalLogController = if let originalLogPath {
             await OriginalLogController(logger: logger, path: originalLogPath)
         } else {
             OriginalLogController?.none
         }
+        
         let matchesController = await MatchesController(logger: logger, regexps: matchesToLog)
         let logAllController = shouldLogAll ? LogAllController(logger: logger) : nil
 
